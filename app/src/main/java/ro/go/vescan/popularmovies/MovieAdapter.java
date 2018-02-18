@@ -15,6 +15,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import ro.go.vescan.popularmovies.model.Movie;
+import ro.go.vescan.popularmovies.utils.MovieDBUtilities;
 
 /**
  * Created by Cristi on 2/17/2018.
@@ -45,14 +46,15 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         // obtain the Movie a the required position
         Movie movie = getItem(position);
-        if (movie == null) return null;
         // if this a new view inflate the layout else recycle it
         if (convertView == null)
         {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_movie, parent, false);
         }
         ImageView iconView = convertView.findViewById(R.id.movie_poster_iv);
-        Picasso.with(getContext()).load(movie.getImageUrl()).fit().into(iconView);
+
+        Picasso.with(getContext()).load(MovieDBUtilities.buildPosterUrlString(movie.getImageUrl(),
+                getContext().getResources().getDimensionPixelSize(R.dimen.list_movie_poster_width))).fit().into(iconView);
         return convertView;
     }
 }

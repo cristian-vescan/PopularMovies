@@ -3,6 +3,9 @@ package ro.go.vescan.popularmovies.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -40,6 +43,40 @@ public class Movie implements Parcelable {
     @Override
     public int describeContents() {
         return 0;
+    }
+
+    public Movie(JSONObject fromMovieDbJson)
+    {
+      /*
+        MovieDB Json Schema
+        poster_path     string or null  optional
+        overview        string          optional
+        release_date    string          optional
+        title           string          optional
+        vote_average    number          optional
+        Example
+        {
+         "poster_path": "/e1mjopzAS2KNsvpbpahQ1a6SkSn.jpg",
+         "overview": "From DC Comics comes the Suicide Squad, an antihero team of incarcerated supervillains who act as deniable assets for the United States government, undertaking high-risk black ops missions in exchange for commuted prison sentences.",
+         "release_date": "2016-08-03",
+         "title": "Suicide Squad",
+         "vote_average": 5.91
+        }
+      */
+      try {
+          if (!fromMovieDbJson.isNull("title")) title = fromMovieDbJson.getString("title");
+          if (!fromMovieDbJson.isNull("poster_path")) image = fromMovieDbJson.getString("poster_path");
+          if (!fromMovieDbJson.isNull("overview")) synopsis = fromMovieDbJson.getString("overview");
+          if (!fromMovieDbJson.isNull("vote_average")) rating = fromMovieDbJson.getDouble("vote_average");
+          if (!fromMovieDbJson.isNull("release_date"))
+          {   // parse the String representing the release date. the format is yyyy-MM-dd
+              String relDate = fromMovieDbJson.getString("release_date");
+              SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+              releaseDate = simpleDateFormat.parse(relDate);
+          }
+
+      }
+      catch (Exception e){ }
     }
 
     private Movie(Parcel parcel)
