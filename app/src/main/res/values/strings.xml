@@ -3,5 +3,6 @@
     <string name="poster_hint">Movie poster</string>
     <string name="popular_menu_item">Popular movies</string>
     <string name="top_rated_menu_item">Top rated</string>
+    <string name="detail_error_message">Movie data not available</string>
 
 </resources>

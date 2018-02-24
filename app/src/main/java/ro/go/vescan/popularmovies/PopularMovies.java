@@ -1,5 +1,7 @@
 package ro.go.vescan.popularmovies;
 
+import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +9,8 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListView;
 
@@ -19,8 +23,8 @@ import ro.go.vescan.popularmovies.model.Movie;
 
 public class PopularMovies extends AppCompatActivity
     implements LoaderManager.LoaderCallbacks<List<Movie>>
-
 {
+    private static final String BUNDLE_KEY_MOVIES = "movies";
     private ArrayList<Movie> movieList;
     private MovieAdapter movieAdapter;
 
@@ -35,25 +39,37 @@ public class PopularMovies extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popular_movies);
         // restore save instace
-        if(savedInstanceState == null || !savedInstanceState.containsKey("movies")) {
+        if(savedInstanceState == null || !savedInstanceState.containsKey(BUNDLE_KEY_MOVIES)) {
             movieList = new ArrayList<>();
+            Bundle bundleForLoader = new Bundle();
+            bundleForLoader.putBoolean(MovieAsyncLoader.MOST_POPULAR_KEY, true);
+            getSupportLoaderManager().initLoader(1, bundleForLoader, this);
         }
         else {
-            movieList = savedInstanceState.getParcelableArrayList("movies");
+            movieList = savedInstanceState.getParcelableArrayList(BUNDLE_KEY_MOVIES);
         }
         // initialize grid view
         movieAdapter = new MovieAdapter(this,  movieList);
         GridView gridView = findViewById(R.id.gvMovies);
         gridView.setAdapter(movieAdapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                launchMovieDetailActivity(position, id);
+            }
+        });
+    }
 
-        Bundle bundleForLoader = new Bundle();
-        bundleForLoader.putBoolean(MovieAsyncLoader.MOST_POPULAR_KEY, true);
-        getSupportLoaderManager().initLoader(1, bundleForLoader, this);
+    private void launchMovieDetailActivity(int position, long id)
+    {
+        Intent intent = new Intent(this, MovieDetail.class);
+        intent.putExtra(MovieDetail.MOVIE_PARCEL, movieList.get(position));
+        startActivity(intent);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putParcelableArrayList("movies", movieList);
+        outState.putParcelableArrayList(BUNDLE_KEY_MOVIES, movieList);
         super.onSaveInstanceState(outState);
     }
 

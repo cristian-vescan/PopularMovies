@@ -25,12 +25,13 @@ public final class MovieDBUtilities {
     public static String buildPosterUrlString(String relativePath, int size) {
         // find the best poster size based on size param
         // supported sizes are   "w92", "w154","w185","w342","w500","w780",
-        // we will select the neareast size >= requested size
+        // we will select the nearest size >= requested size
         int nSelSize = 185;
         for (int nSize : POSTER_WIDTHS)
         {
             if (size >= nSize) nSelSize = nSize;
         }
+        // build the URL with the selected width
         Uri builtUri = Uri.parse(IMAGE_BASE_URL).buildUpon()
                 .appendEncodedPath("w" + Integer.toString(nSelSize))
                 .appendEncodedPath(relativePath).build();

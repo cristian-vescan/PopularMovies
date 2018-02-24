@@ -11,6 +11,9 @@
         android:contentDescription="@string/poster_hint"
         android:padding="0dp"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/list_movie_poster_height"/>
+        android:src="@drawable/ic_no_poster_available"
+        android:layout_height="wrap_content"
+        />
+    <!-- android:layout_height="@dimen/list_movie_poster_height" -->
 
 </LinearLayout>

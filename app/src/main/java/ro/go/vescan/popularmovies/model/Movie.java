@@ -3,8 +3,10 @@ package ro.go.vescan.popularmovies.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -32,7 +34,7 @@ public class Movie implements Parcelable {
         this.synopsis = synopsys;
         this.image = image;
         this.rating = rating;
-        this.releaseDate = releaseDate;
+        this.releaseDate = new Date(releaseDate.getTime());
     }
     public String getTitle() {return title;}
     public String getImageUrl() {return image;}
@@ -45,6 +47,11 @@ public class Movie implements Parcelable {
         return 0;
     }
 
+    private static final String TITLE = "title";
+    private static final String POSTER_PATH = "poster_path";
+    private static final String OVERVIEW = "overview";
+    private static final String VOTE_AVERAGE = "vote_average";
+    private static final String RELEASE_DATE = "release_date";
     public Movie(JSONObject fromMovieDbJson)
     {
       /*
@@ -64,19 +71,21 @@ public class Movie implements Parcelable {
         }
       */
       try {
-          if (!fromMovieDbJson.isNull("title")) title = fromMovieDbJson.getString("title");
-          if (!fromMovieDbJson.isNull("poster_path")) image = fromMovieDbJson.getString("poster_path");
-          if (!fromMovieDbJson.isNull("overview")) synopsis = fromMovieDbJson.getString("overview");
-          if (!fromMovieDbJson.isNull("vote_average")) rating = fromMovieDbJson.getDouble("vote_average");
-          if (!fromMovieDbJson.isNull("release_date"))
+          title = fromMovieDbJson.optString(TITLE, "");
+          image = fromMovieDbJson.optString(POSTER_PATH, "");
+          synopsis = fromMovieDbJson.optString(OVERVIEW, "");
+          rating = fromMovieDbJson.optDouble(VOTE_AVERAGE, 0 );
+          if (!fromMovieDbJson.isNull(RELEASE_DATE))
           {   // parse the String representing the release date. the format is yyyy-MM-dd
-              String relDate = fromMovieDbJson.getString("release_date");
+              String relDate = fromMovieDbJson.getString(RELEASE_DATE);
               SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
               releaseDate = simpleDateFormat.parse(relDate);
           }
 
       }
-      catch (Exception e){ }
+      catch (JSONException e){  e.printStackTrace(); }
+      catch (ParseException e) { e.printStackTrace();
+      }
     }
 
     private Movie(Parcel parcel)
@@ -85,7 +94,7 @@ public class Movie implements Parcelable {
         image = parcel.readString();
         synopsis = parcel.readString();
         rating = parcel.readDouble();
-        releaseDate.setTime(parcel.readLong());
+        releaseDate = new Date(parcel.readLong());
     }
 
     @Override
@@ -97,7 +106,7 @@ public class Movie implements Parcelable {
         parcel.writeLong(releaseDate.getTime());
     }
 
-    public final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
+    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
         @Override
         public Movie createFromParcel(Parcel parcel) {
             return new Movie(parcel);
