@@ -23,14 +23,12 @@ import ro.go.vescan.popularmovies.utils.MovieDBUtilities;
 public class MovieAsyncLoader extends AsyncTaskLoader<List<Movie>> {
     public final static String MOST_POPULAR_KEY = "MostPopular";
     //loader params
-    private boolean mLoadMostPopular = true; // if false we will load top rated movies
-    private List<Movie> mMovies;
+    private boolean mLoadMostPopular;
 
 
     public MovieAsyncLoader(Context context, final Bundle loaderArgs) {
         super(context);
-        mMovies = new LinkedList<>();
-        mLoadMostPopular = loaderArgs.getBoolean(MOST_POPULAR_KEY);
+        mLoadMostPopular = loaderArgs.getBoolean(MOST_POPULAR_KEY, true);// if defaultValue=false we will load top rated movies
     }
 
     @Override

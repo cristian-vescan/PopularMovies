@@ -1,47 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.design.widget.CoordinatorLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ro.go.vescan.popularmovies.MovieDetail"
-    >
+    tools:context="ro.go.vescan.popularmovies.MovieDetail">
+
     <android.support.design.widget.AppBarLayout
         android:id="@+id/detail.appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
-            app:expandedTitleMarginEnd="64dp">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/detail.toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize"
-            android:background="@color/colorPrimaryLight"
-            >
-            <TextView
-                android:id="@+id/movieTitle_tv"
-                android:layout_width="wrap_content"
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/detail.toolbar"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:theme="@style/TextAppearance.AppCompat.Title.Inverse"
-                app:layout_constraintBottom_toTopOf="@+id/colored_title_bar"
-                app:layout_constraintStart_toStartOf="@+id/colored_title_bar"
-                app:layout_constraintTop_toBottomOf="@+id/colored_title_bar"
-                tools:text="Suicide Squad"
-                android:layout_marginLeft="8dp" />
-        </android.support.v7.widget.Toolbar>
+                android:background="@color/colorPrimaryLight"
+                android:minHeight="?attr/actionBarSize">
+
+                <TextView
+                    android:id="@+id/movieTitle_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:maxWidth="230dp"
+                    android:minWidth="100dp"
+                    android:theme="@style/TextAppearance.AppCompat.Title.Inverse"
+                    app:layout_constraintBottom_toTopOf="@+id/colored_title_bar"
+                    app:layout_constraintStart_toStartOf="@+id/colored_title_bar"
+                    app:layout_constraintTop_toBottomOf="@+id/colored_title_bar"
+                    tools:text="One flew over the Cuckoo's Nest" />
+
+                <TextView
+                    android:id="@+id/release_date_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/movieTitle_tv"
+                    app:layout_constraintStart_toEndOf="@+id/movieTitle_tv"
+                    app:layout_constraintTop_toBottomOf="@+id/movieTitle_tv"
+                    tools:text="(2016)" />
+
+                <TextView
+                    android:id="@+id/rating_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginStart="40dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/movieTitle_tv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/movieTitle_tv"
+                    tools:text="5.9/10" />
+            </android.support.v7.widget.Toolbar>
+
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
@@ -70,55 +101,44 @@
 
 
             <TextView
-                android:id="@+id/release_date_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="32dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="sans-serif"
-                android:textSize="32sp"
-                app:layout_constraintStart_toEndOf="@+id/movie_detail_poster_iv"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="2016" />
-
-            <TextView
-                android:id="@+id/rating_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:fontFamily="sans-serif-light"
-                android:textSize="28sp"
-                app:layout_constraintStart_toStartOf="@+id/release_date_tv"
-                app:layout_constraintTop_toBottomOf="@+id/release_date_tv"
-                tools:text="5.9/10" />
-
-            <TextView
                 android:id="@+id/synopsys_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/movie_detail_poster_iv"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/movie_detail_poster_iv"
+                app:layout_constraintTop_toBottomOf="@+id/overviewTitle"
                 tools:text="From DC Comics comes the Suicide Squad, an antihero team of incarcerated supervillains who act as deniable assets for the United States government, undertaking high-risk black ops missions in exchange for commuted prison sentences." />
+
+            <TextView
+                android:id="@+id/overviewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/overview_title"
+                android:fontFamily="sans-serif"
+                android:textSize="20sp"
+                app:layout_constraintStart_toEndOf="@+id/movie_detail_poster_iv"
+                app:layout_constraintTop_toTopOf="@+id/movie_detail_poster_iv"
+                android:layout_marginLeft="8dp" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/movie_detail_poster_iv"
+                app:layout_constraintEnd_toEndOf="@+id/movie_detail_poster_iv"
+                app:layout_constraintStart_toStartOf="@+id/movie_detail_poster_iv"
+                app:layout_constraintTop_toTopOf="@+id/movie_detail_poster_iv" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
-
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginRight="16dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@android:drawable/btn_star_big_on"
-        app:backgroundTint="@color/colorPrimaryLight"
-        app:layout_anchor="@+id/nestedScrollView"
-        app:layout_anchorGravity="right|bottom" />
 
 </android.support.design.widget.CoordinatorLayout>

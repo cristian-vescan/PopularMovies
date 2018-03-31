@@ -1,5 +1,6 @@
 package ro.go.vescan.popularmovies.model;
 
+import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -17,8 +18,10 @@ import java.util.Date;
 public class Movie implements Parcelable {
     //original title
     private String title;
-    //movie poster image thumbnail
-    private String image;
+    //movie poster image path
+    private String image = "";
+    //movie backdrop image path  . for a better detail view
+    private String backdrop;
     // A plot synopsis (called overview in the api)
     private String synopsis;
     //user rating (called vote_average in the api)
@@ -38,6 +41,7 @@ public class Movie implements Parcelable {
     }
     public String getTitle() {return title;}
     public String getImageUrl() {return image;}
+    public String getBackdropUrl() {return  backdrop;}
     public String getSynopsis() {return  synopsis;}
     public Double getRating() {return rating;}
     public Date   getReleaseDate() {return releaseDate;}
@@ -49,6 +53,7 @@ public class Movie implements Parcelable {
 
     private static final String TITLE = "title";
     private static final String POSTER_PATH = "poster_path";
+    private static final String BACKDROP_PATH = "backdrop_path";
     private static final String OVERVIEW = "overview";
     private static final String VOTE_AVERAGE = "vote_average";
     private static final String RELEASE_DATE = "release_date";
@@ -73,11 +78,13 @@ public class Movie implements Parcelable {
       try {
           title = fromMovieDbJson.optString(TITLE, "");
           image = fromMovieDbJson.optString(POSTER_PATH, "");
+          backdrop = fromMovieDbJson.optString(BACKDROP_PATH, "");
           synopsis = fromMovieDbJson.optString(OVERVIEW, "");
           rating = fromMovieDbJson.optDouble(VOTE_AVERAGE, 0 );
           if (!fromMovieDbJson.isNull(RELEASE_DATE))
           {   // parse the String representing the release date. the format is yyyy-MM-dd
               String relDate = fromMovieDbJson.getString(RELEASE_DATE);
+              @SuppressLint("SimpleDateFormat")
               SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
               releaseDate = simpleDateFormat.parse(relDate);
           }
@@ -92,6 +99,7 @@ public class Movie implements Parcelable {
     {
         title = parcel.readString();
         image = parcel.readString();
+        backdrop = parcel.readString();
         synopsis = parcel.readString();
         rating = parcel.readDouble();
         releaseDate = new Date(parcel.readLong());
@@ -101,6 +109,7 @@ public class Movie implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(title);
         parcel.writeString(image);
+        parcel.writeString(backdrop);
         parcel.writeString(synopsis);
         parcel.writeDouble(rating);
         parcel.writeLong(releaseDate.getTime());
